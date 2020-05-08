@@ -2,44 +2,64 @@
 % Please edit documentation in R/muac.R
 \name{indivmuaczs}
 \alias{indivmuaczs}
-\title{Generate MUAC z scores for age for single individuals given their age, sex and muac values.}
+\title{Generate MUAC z scores and percentiles for age for single individuals given their age, sex and MUAC values.}
 \usage{
-indivmuaczs(age = 60, sex = 1, muac = 10, verbose = FALSE)
+indivmuaczs(age = 60, sex = 1, muac = 10, age_range = "3-60", Notes = FALSE)
 }
 \arguments{
-\item{age}{a numeric value (in months) between 60 and 300.}
+\item{age}{a numeric value (in months) between 3 and 228 depending on the age_range.}
 
 \item{sex}{preferably numeric (1 = Male, 2 = Female). Strings can also be used.}
 
-\item{muac}{a numeric value in cm between 5 and 50.}
+\item{muac}{a numeric mid upper arm circumference value in cm.}
 
-\item{verbose}{Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature, range of variables allowed and number of records processed.}
+\item{age_range}{age range in months. Input has to be characters.
+Options allowed are: "3-60" the default, or "60-228".}
+
+\item{Notes}{Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature,
+range of variables allowed and number of records processed.}
 }
 \value{
-A DataFrame with MUAC z scores.
+A DataFrame with MUAC z-scores and percentiles.
 }
 \description{
-Generates MUAC z Scores for an individual subject by entering their age (in months), sex and muac (in cm) directly.
-This is useful for children and adolescents aged 5 to 19 years to assess their nutritional and health status, and  define risk of adverse health events.
+Generates MUAC z-Scores and percentiles for individual subjects by entering their age (in months), sex and muac (in cm) directly.
+This is useful for children and adolescents aged 3 months to 19 years and to assess their nutritional and health status, and  define risk of adverse health events.
 }
 \examples{
-## Provide values for one individual for age, sex and muac
-test1 <- indivmuaczs(age=62, sex=1, muac=20)
-test2 <- indivmuaczs(age=65, sex=2, muac=12.5)
-test3 <- indivmuaczs(age=70, sex="Female", muac=15.8)
-test4 <- indivmuaczs(age=92, sex="Male", muac=5.3)
-# test5 <- indivmuaczs(age=92, sex="Male", muac=5.3, verbose=TRUE) # Prints NOTES
+test0 <- indivmuaczs(age = 70, sex = "Female", muac = 15.8,
+          age_range = "60-228")
+# test0
+
+test1 <- indivmuaczs(age = c(4, 40, 60), sex = "Male",
+          muac = c(17.2, 17.2, 19.8), age_range = "3-60")
+# test1
+
+test2 <- indivmuaczs(age = c(4, 40, 60), sex = 2,
+         muac = c(14.9, 17.7, 19))
+# test2
+
+res2 <- indivmuaczs(age = 70, sex = c(1, 1, 2, 2, 2, 1),
+                   muac = c(23.1, 15.2, 18.4, 13.9, 19.5, 14.6),
+                   age_range = "60-228")
+# res2
+
 
 }
 \references{
 Mramba L., Ngari M., Mwangome M., Muchai L., Bauni E., Walker A.S., Gibb D.M., Fegan G. and Berkley J.A. (2017)
-\emph{A growth reference for mid upper arm circumference for age among school age children and adolescents, and validation for mortality: growth curve construction and longitudinal cohort study}
-BMJ 2017;358:j3423 <doi:10.1136/bmj.j3423> <https://www.bmj.com/content/358/bmj.j3423>
+\emph{A growth reference for mid upper arm circumference for age among school age children and adolescents,
+and validation for mortality: growth curve construction and longitudinal cohort study}
+BMJ 2017;358:j3423 <doi:10.1136/bmj.j3423>
+
+<https://www.bmj.com/content/358/bmj.j3423>
+
+<https://www.bmj.com/content/358/bmj.j3423/related#datasupp>
 
 <https://www.who.int/childgrowth/standards/Technical_report.pdf>
 
 <https://www.who.int/childgrowth/standards/ac_for_age/en/>
 }
 \seealso{
-\code{\link{muaczs}}  and \code{\link{plotref}}.
+\code{\link{muaczs}}, \code{\link{bmizs}}, \code{\link{muacz.bmiz}}, \code{\link{plotmuac}} and \code{\link{plotbmi}}.
 }

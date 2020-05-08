@@ -2,61 +2,64 @@
 % Please edit documentation in R/muac.R
 \name{muaczs}
 \alias{muaczs}
-\title{Generate MUAC z scores for age for children/adolescents in a dataset given their age, sex, and muac values.}
+\title{Generate MUAC z-scores and percentiles for age for children and adolescents given their age, sex, and MUAC values.}
 \usage{
-muaczs(Datafm, verbose = FALSE)
+muaczs(Datafm, age_range = "3-60", Notes = FALSE)
 }
 \arguments{
 \item{Datafm}{A DataFrame with variables including pid (unique subject identification),
 age (in months), sex (1, 2 or "Male", "Female"), muac (numeric: in cm).}
 
-\item{verbose}{Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature, range of variables allowed and number of records processed.}
+\item{age_range}{age range in months. Input has to be characters.
+Options allowed are: "3-60" which is the default, or "60-228"}
+
+\item{Notes}{Is FALSE by default. If set to TRUE, 'notes' will be
+printed on the console about the nature, range of variables allowed
+and number of records processed.}
 }
 \value{
-A DataFrame with MUAC z scores
+A DataFrame with MUAC z scores for age and percentiles.
 }
 \description{
-Generates mid upper arm circumference (MUAC) for age z scores for children and
-adolescents aged 5 to 19 years that can be used to assess nutritional and health status,
- and  define risk of adverse health events from a given dataset.
+Generates mid upper arm circumference (MUAC) for age z-scores and percentiles based on LMS-method for children and
+adolescents aged 3 months to 19 years.
 }
 \examples{
-## Example 1: Generate data and calculate muac Z-scores
+## Example 1: younger age range is the default: 3 months - 5 years
+# Creating a hypothetical dataset
 
-dat1 <- data.frame(age = c(60,65,90,120,250),
-sex = c("Male","Female","Male","Male","Female"),
-muac = c(8.7, 13.3, 15.4, 17.8, 25.1))
-ans1 <- muaczs(Datafm = dat1)
-# ans1 <- muaczs(Datafm = dat1, verbose=TRUE) # Prints NOTES
+dat1 <- data.frame(age = c(3, 5, 12, 18, 23, 24, 36, 48, 60, 24, 36, 48, 60),
+        sex = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2),
+        muac = c(15.6, 14.1, 15.8, 18.7, 12.9, 13,
+        14.5, 16.1, 21.7, 12.7, 14.4, 16.2, 22.5))
+# Run the function
+ans1 <- muaczs(Datafm = dat1) # save the output
+# ans1
 
-## Example 2: Hypothetical longitudinal data with unique patient identification numbers (pid)
+ ## Example 2: For children 5-19 years old, specify their age range "61-228"
+ # Creating a hypothetical dataset
+ dat1 <- data.frame(age = c(60, 65, 90, 120, 220),
+         sex = c("Male","Female","Male","Male","Female"),
+         muac = c(20, 14.3, 15.4, 17.8, 25.1))
 
-dat2 <- data.frame(pid = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5),
-age = c(60, 72, 84, 70, 84, 96, 90, 102, 114, 100, 112, 124, 200, 212, 224),
-sex = c(1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2),
-muac= c(10.1, 13.4, 16.9, 15.3, 16.6, 18.1, 13.2, 15.3, 17.5, 15.7, 17.1, 19.8, 14.1, 16.4, 19.4))
-ans2 <- muaczs(Datafm = dat2) # saves results in ans2
-# ans2[order(ans2$pid),] # sorts the data by pid
-
-## Example 3: Data with single observations
-
-sex <- c(1)
-age <- c(190)
-muac <- c(15)
-data1 <- data.frame(age = age, sex = sex, muac = muac)
-ans3 <- muaczs(Datafm = data1)
-# ans4 <- muaczs(Datafm = data1, verbose=TRUE) # Prints NOTES
+ans1 <- muaczs(Datafm = dat1, age_range = "60-228")
+# ans1
 
 }
 \references{
 Mramba L., Ngari M., Mwangome M., Muchai L., Bauni E., Walker A.S., Gibb D.M., Fegan G. and Berkley J.A. (2017)
-\emph{A growth reference for mid upper arm circumference for age among school age children and adolescents, and validation for mortality: growth curve construction and longitudinal cohort study}
-BMJ 2017;358:j3423 <doi:10.1136/bmj.j3423> <https://www.bmj.com/content/358/bmj.j3423>
+\emph{A growth reference for mid upper arm circumference for age among school age children and adolescents, and validation for mortality:
+growth curve construction and longitudinal cohort study}
+BMJ 2017;358:j3423 <doi:10.1136/bmj.j3423>
+
+<https://www.bmj.com/content/358/bmj.j3423>
+
+<https://www.bmj.com/content/358/bmj.j3423/related#datasupp>
 
 <https://www.who.int/childgrowth/standards/Technical_report.pdf>
 
 <https://www.who.int/childgrowth/standards/ac_for_age/en/>
 }
 \seealso{
-\code{\link{indivmuaczs}} and \code{\link{plotref}}.
+\code{\link{indivmuaczs}}, \code{\link{bmizs}}, \code{\link{muacz.bmiz}}, \code{\link{plotmuac}} and \code{\link{plotbmi}}.
 }
