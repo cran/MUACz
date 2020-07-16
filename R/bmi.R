@@ -9,6 +9,10 @@
 #' @param age_range age range in months. Input has to be characters.
 #' It allows "0-24" by default. Other inputs allowed are "24-60" or "61-228".
 #'
+#' @param digits.zscore The number of digits for z-score variable
+#'
+#' @param digits.perc The number of digits for percentile variable
+#'
 #' @param Notes Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature,
 #' range of variables allowed and number of records processed.
 #'
@@ -60,7 +64,10 @@
 #'
 #' @export
 #'
-bmizs <- function(Datafm, age_range = "0-24", Notes = FALSE){
+bmizs <- function(Datafm, age_range = "0-24",
+                  digits.zscore = 2,
+                  digits.perc = 2,
+                  Notes = FALSE){
   # Datafm is your dataset (a data frame)
   # Important notes.
   if(Notes){
@@ -124,7 +131,7 @@ bmizs <- function(Datafm, age_range = "0-24", Notes = FALSE){
   merged1$bmizfinal <- ifelse(abs(merged1$bmiz) <=3, merged1$bmiz,
                                ifelse(merged1$bmiz >3, 3+((merged1$bmi - merged1$sd3pos)/merged1$sd23pos),
                                       ifelse(merged1$bmiz < -3, -3+((merged1$bmi - merged1$sd3neg)/merged1$sd23neg),NA)))
-  ### Set NA to bmizscores and bmizscorefinal
+  # Set NA to bmizscores and bmizscorefinal
   merged1$bmiz <- ifelse(is.na(merged1$l), NA, merged1$bmiz)
   merged1$bmizfinal <- ifelse(is.na(merged1$l), NA, merged1$bmizfinal)
   # drop l s median
@@ -134,8 +141,8 @@ bmizs <- function(Datafm, age_range = "0-24", Notes = FALSE){
   merged1$bmiz <- merged1$bmizfinal
   bmizfinal <- NULL
   merged1 <- subset(merged1, select = -c(bmizfinal)) # drops bmizfinal
-  merged1$percentile <- round(pnorm(merged1$bmiz)*100,1)
-  merged1$bmiz <-  round(merged1$bmiz, 0)
+  merged1$percentile <- round(pnorm(merged1$bmiz)*100, digits = digits.perc)
+  merged1$bmiz <-  round(merged1$bmiz, digits = digits.zscore)
   if(Notes){
     print(paste0("Total records processed: ", nrow(merged1[!(is.na(merged1$bmiz)),])), quote = FALSE)
   }

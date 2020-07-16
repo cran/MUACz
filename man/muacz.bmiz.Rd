@@ -8,6 +8,8 @@ muacz.bmiz(
   Datafm,
   age_range.muac = "60-228",
   age_range.bmi = "61-228",
+  digits.zscore = 2,
+  digits.perc = 2,
   Notes = FALSE
 )
 }
@@ -18,6 +20,10 @@ sex (1, 2 or "Male", "Female"), muac (numeric: in cm).}
 \item{age_range.muac}{MUAC age range in months: This can be "3-60" or "60-228".}
 
 \item{age_range.bmi}{BMI age range in months: This can be "0-24", "24-60" or "61-228".}
+
+\item{digits.zscore}{The number of digits for z-score variable}
+
+\item{digits.perc}{The number of digits for percentile variable}
 
 \item{Notes}{Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature,
 range of variables allowed and number of records processed.}

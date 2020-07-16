@@ -25,6 +25,11 @@
 #'
 #' @param line.color The color of the lines. It is set to "skyblue" by default.
 #'
+#' @param line.type Type of line such as: "solid", "dotted",
+#' "dashed", "blank", "dotdash", "twodash", "longdash"
+#'
+#' @param shape of the individual point (marker)
+#'
 #' @param Notes Is FALSE by default. If set to TRUE, 'notes' will be printed on
 #' the console about the nature, range of variables allowed and number of records processed.
 #'
@@ -60,7 +65,9 @@ plotbmi <- function(age, sex, bmi, lwd=1,
                        age_range = "0-24",
                        line.color = "skyblue",
                        graphtype = "z-scores",
-                       size.label = 4, size.score = 5,
+                       size.label = 2, size.score = 4,
+                       line.type = "solid",
+                       shape = 2,
                        Notes = FALSE) {
   if(Notes){
     print(sprintf("Notes:"))
@@ -105,16 +112,18 @@ plotbmi <- function(age, sex, bmi, lwd=1,
     BMI_ZS_Boys$zscores <- as.factor(BMI_ZS_Boys$zscores)
     g1 <- ggplot2::ggplot() +
     geom_smooth(aes(x = BMI_ZS_Boys$Month, y = BMI_ZS_Boys$bmi,
-                    group = BMI_ZS_Boys$zscores, linetype = BMI_ZS_Boys$zscores),
+                    group = BMI_ZS_Boys$zscores),
                 method = "gam", lwd=lwd,
-                formula = y ~ s(x, bs = "cs"), se = FALSE, color = line.color) +
+                formula = y ~ s(x, bs = "cs"), se = FALSE,
+                color = line.color,
+                linetype = line.type) +
     geom_text(data = BMI_ZS_Boys %>% filter(Month == last(Month)),
               aes(label = zscores,
                   x = Month + 1.9, color = "red",
                   y = bmi), size = size.score) +
     geom_point( aes(x = Datafm$age, y = Datafm$bmi),
                 size=size.label, color = "red",
-                shape =  1:nrow(Datafm)) +
+                shape =  shape) +
     scale_y_continuous(breaks = seq(0, max(BMI_ZS_Boys$bmi)+2, 1),
                        expression(bold(paste("Body Mass Index ",~ " (", kg/m^{2},")", )))) +
     scale_x_continuous(breaks = seq(0, 24, 3),
@@ -141,16 +150,18 @@ plotbmi <- function(age, sex, bmi, lwd=1,
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_ZS_Girls$Month,
                       y = BMI_ZS_Girls$bmi,
-                      group = BMI_ZS_Girls$zscores, linetype = BMI_ZS_Girls$zscores),
+                      group = BMI_ZS_Girls$zscores),
                   method = "gam", lwd=lwd,
-                  formula = y ~ s(x, bs = "cs"), se = FALSE, color = line.color) +
+                  formula = y ~ s(x, bs = "cs"), se = FALSE,
+                  color = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_ZS_Girls %>% filter(Month == last(Month)),
                 aes(label = zscores, color = "red",
                     x = Month + 1.9,
                     y = bmi), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$bmi),
                   size=size.label, color="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_ZS_Girls$bmi)+2, 1),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(0, 24, 3),
@@ -177,17 +188,17 @@ plotbmi <- function(age, sex, bmi, lwd=1,
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_Per_Boys$Month,
                       y = BMI_Per_Boys$bmi,
-                      group = BMI_Per_Boys$perc,
-                      linetype = BMI_Per_Boys$perc),
+                      group = BMI_Per_Boys$perc),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_Per_Boys %>% filter(Month == last(Month)),
                 aes(label = perc, x = Month + 2.9, color = "red",
                     y = bmi), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$bmi),
                   size=size.label, colour="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_Per_Boys$bmi)+2, 1),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(0, 24, 3),
@@ -213,17 +224,17 @@ plotbmi <- function(age, sex, bmi, lwd=1,
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_Per_Girls$Month,
                       y = BMI_Per_Girls$bmi,
-                      group = BMI_Per_Girls$perc,
-                      linetype = BMI_Per_Girls$perc),
+                      group = BMI_Per_Girls$perc),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_Per_Girls %>% filter(Month == last(Month)),
                 aes(label = perc, x = Month + 2.9, color = "red",
                     y = bmi), size = size.score) +
       geom_point(aes(x = Datafm$age, y = Datafm$bmi),
                   size=size.label, colour="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_Per_Girls$bmi)+2, 1),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(0, 24, 3),
@@ -251,18 +262,18 @@ plotbmi <- function(age, sex, bmi, lwd=1,
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_ZS_Boys$Month,
                       y = BMI_ZS_Boys$bmi,
-                      group = BMI_ZS_Boys$zscores,
-                      linetype = BMI_ZS_Boys$zscores),
+                      group = BMI_ZS_Boys$zscores),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_ZS_Boys %>% filter(Month == last(Month)),
                 aes(label = zscores,
                     x = Month + 1.9, color = "red",
                     y = bmi), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$bmi),
                   size=size.label, color="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_ZS_Boys$bmi)+2, 1),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(24, 60, 3),
@@ -289,18 +300,18 @@ plotbmi <- function(age, sex, bmi, lwd=1,
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_ZS_Girls$Month,
                       y = BMI_ZS_Girls$bmi,
-                      group = BMI_ZS_Girls$zscores,
-                      linetype = BMI_ZS_Girls$zscores),
+                      group = BMI_ZS_Girls$zscores),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_ZS_Girls %>% filter(Month == last(Month)),
                 aes(label = zscores,
                     x = Month + 1.9, color = "red",
                     y = bmi), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$bmi),
                   size=size.label, color="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_ZS_Girls$bmi)+2, 1),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(24, 60, 3),
@@ -327,17 +338,17 @@ plotbmi <- function(age, sex, bmi, lwd=1,
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_Per_Boys$Month,
                       y = BMI_Per_Boys$bmi,
-                      group = BMI_Per_Boys$perc,
-                      linetype = BMI_Per_Boys$perc),
+                      group = BMI_Per_Boys$perc),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_Per_Boys %>% filter(Month == last(Month)),
                 aes(label = perc, x = Month + 2.9, color = "red",
                     y = bmi), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$bmi),
                   size=size.label, colour="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_Per_Boys$bmi)+2, 1),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(24, 60, 3),
@@ -362,17 +373,17 @@ plotbmi <- function(age, sex, bmi, lwd=1,
     BMI_Per_Girls$perc <- as.factor(BMI_Per_Girls$perc)
     g1 <- ggplot() +
       geom_smooth(aes(x = BMI_Per_Girls$Month, y = BMI_Per_Girls$bmi,
-                      group = BMI_Per_Girls$perc,
-                      linetype = BMI_Per_Girls$perc),
+                      group = BMI_Per_Girls$perc),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_Per_Girls %>% filter(Month == last(Month)),
                 aes(label = perc, x = Month + 2.9, color = "red",
                     y = bmi), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$bmi),
                   size=size.label, color = "red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_Per_Girls$bmi)+2, 1),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(24, 60, 3),
@@ -399,18 +410,18 @@ if(unique(Datafm$sex) == 1 & graphtype == "z-scores" & age_range =="61-228"){
   g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_ZS_Boys$year,
                       y = BMI_ZS_Boys$bmi,
-                      group = BMI_ZS_Boys$zscores,
-                      linetype = BMI_ZS_Boys$zscores),
+                      group = BMI_ZS_Boys$zscores),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"),
                   se = FALSE,
-                  colour = line.color) +
+                  colour = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_ZS_Boys %>% filter(year == last(year)),
                 aes(label = zscores, x = year + 0.9,
                     y = bmi, color = "red"), size = size.score) +
       geom_point(aes(x = (Datafm$age)/12, y = Datafm$bmi),
                   size = size.label, color = "red",
-                  shape =  1:nrow(Datafm)) +
+                  shape = shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_ZS_Boys$bmi)+2, 2),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(5, 19, 1),
@@ -425,7 +436,8 @@ if(unique(Datafm$sex) == 1 & graphtype == "z-scores" & age_range =="61-228"){
         axis.title = element_text(face="bold"),
         legend.title = element_text(face="bold"),
         legend.background = element_rect(colour = "black"),
-        panel.border = element_rect(colour="black", fill="NA",  linetype = "solid"),
+        panel.border = element_rect(colour="black", fill="NA",
+                                    linetype = "solid"),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
@@ -439,17 +451,17 @@ if(unique(Datafm$sex) == 1 & graphtype == "z-scores" & age_range =="61-228"){
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_ZS_Girls$year,
                       y = BMI_ZS_Girls$bmi,
-                      group = BMI_ZS_Girls$zscores,
-                      linetype = BMI_ZS_Girls$zscores),
+                      group = BMI_ZS_Girls$zscores),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"), se = FALSE,
-                  colour = line.color) +
+                  colour = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_ZS_Girls %>% filter(year == last(year)),
                 aes(label = zscores, x = year + 0.9,
                     y = bmi, color = "red"), size = size.score) +
       geom_point(aes(x = (Datafm$age)/12, y = Datafm$bmi),
                  size = size.label, color = "red",
-                 shape =  1:nrow(Datafm)) +
+                 shape = shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_ZS_Girls$bmi)+2, 2),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(5, 19, 1),
@@ -464,7 +476,8 @@ if(unique(Datafm$sex) == 1 & graphtype == "z-scores" & age_range =="61-228"){
         axis.title = element_text(face="bold"),
         legend.title = element_text(face="bold"),
         legend.background = element_rect(colour = "black"),
-        panel.border = element_rect(colour="black", fill="NA",  linetype = "solid"),
+        panel.border = element_rect(colour="black", fill="NA",
+                                    linetype = "solid"),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
@@ -478,17 +491,17 @@ if(unique(Datafm$sex) == 1 & graphtype == "z-scores" & age_range =="61-228"){
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_Per_Boys$year,
                       y = BMI_Per_Boys$bmi,
-                      group = BMI_Per_Boys$perc,
-                      linetype = BMI_Per_Boys$perc),
+                      group = BMI_Per_Boys$perc),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"), se = FALSE,
-                  colour = line.color) +
+                  colour = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_Per_Boys %>% filter(year == last(year)),
                 aes(label = perc, x = year + 0.9,
                     y = bmi, color = "red"), size = size.score) +
       geom_point(aes(x = (Datafm$age)/12, y = Datafm$bmi),
                  size = size.label, color = "red",
-                 shape =  1:nrow(Datafm)) +
+                 shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_Per_Boys$bmi)+2, 2),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(5, 19, 1),
@@ -503,7 +516,8 @@ if(unique(Datafm$sex) == 1 & graphtype == "z-scores" & age_range =="61-228"){
         axis.title = element_text(face="bold"),
         legend.title = element_text(face="bold"),
         legend.background = element_rect(colour = "black"),
-        panel.border = element_rect(colour="black", fill="NA",  linetype = "solid"),
+        panel.border = element_rect(colour="black", fill="NA",
+                                    linetype = "solid"),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
@@ -517,17 +531,17 @@ if(unique(Datafm$sex) == 1 & graphtype == "z-scores" & age_range =="61-228"){
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BMI_Per_Girls$year,
                       y = BMI_Per_Girls$bmi,
-                      group = BMI_Per_Girls$perc,
-                      linetype = BMI_Per_Girls$perc),
+                      group = BMI_Per_Girls$perc),
                   method = "gam", lwd=lwd,
                   formula = y ~ s(x, bs = "cs"), se = FALSE,
-                  colour = line.color) +
+                  colour = line.color,
+                  linetype = line.type) +
       geom_text(data = BMI_Per_Girls %>% filter(year == last(year)),
                 aes(label = perc, x = year + 0.9,
                     y = bmi, color = "red"), size = size.score) +
       geom_point(aes(x = (Datafm$age)/12, y = Datafm$bmi),
                  size = size.label, color = "red",
-                 shape =  1:nrow(Datafm)) +
+                 shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BMI_Per_Girls$bmi)+2, 2),
                          expression(bold(paste("Body Mass Index ", ~" (", kg/m^{2},")", )))) +
       scale_x_continuous(breaks = seq(5, 19, 1),
@@ -542,7 +556,8 @@ if(unique(Datafm$sex) == 1 & graphtype == "z-scores" & age_range =="61-228"){
         axis.title = element_text(face="bold"),
         legend.title = element_text(face="bold"),
         legend.background = element_rect(colour = "black"),
-        panel.border = element_rect(colour="black", fill="NA",  linetype = "solid"),
+        panel.border = element_rect(colour="black", fill="NA",
+                                    linetype = "solid"),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),

@@ -10,6 +10,10 @@
 #'
 #' @param age_range.bmi BMI age range in months: This can be "0-24", "24-60" or "61-228".
 #'
+#' @param digits.zscore The number of digits for z-score variable
+#'
+#' @param digits.perc The number of digits for percentile variable
+#'
 #' @param Notes Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature,
 #' range of variables allowed and number of records processed.
 #'
@@ -61,10 +65,18 @@
 #'
 muacz.bmiz <- function(Datafm, age_range.muac = "60-228",
                        age_range.bmi = "61-228",
+                       digits.zscore = 2,
+                       digits.perc = 2,
                        Notes = FALSE){
-  datf1 <- muaczs(Datafm, age_range = age_range.muac, Notes = Notes)
+  datf1 <- muaczs(Datafm, age_range = age_range.muac,
+                  digits.zscore = digits.zscore,
+                  digits.perc = digits.perc,
+                  Notes = Notes)
   datf1$percentile.muac <- datf1$percentile
-  datf2 <- bmizs(datf1, age_range = age_range.bmi, Notes = Notes)
+  datf2 <- bmizs(datf1, age_range = age_range.bmi,
+                 digits.zscore = digits.zscore,
+                 digits.perc = digits.perc,
+                 Notes = Notes)
   datf2$percentile.bmi <- datf2$percentile
   datf2$percentile <- NULL
   datf2[, c(1,2,3,4,5,7,6,8)]

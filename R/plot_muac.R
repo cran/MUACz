@@ -25,6 +25,11 @@
 #'
 #' @param line.color The color of the lines. It is set to "skyblue" by default.
 #'
+#' @param line.type Type of line such as: "solid", "dotted",
+#' "dashed", "blank", "dotdash", "twodash", "longdash"
+#'
+#' @param shape of the individual point (marker)
+#'
 #' @param Notes Is FALSE by default. If set to TRUE, 'notes' will be printed on the
 #' console about the nature, range of variables allowed and number of records processed.
 #'
@@ -73,7 +78,10 @@
 plotmuac <- function(age, sex, muac, age_range = "3-60",
                     graphtype = "z-scores", lwd = 1,
                     line.color = "skyblue",
-                    size.label = 4, size.score = 5, Notes = FALSE) {
+                    line.type = "solid",
+                    shape = 2,
+                    size.label = 2, size.score = 4,
+                    Notes = FALSE) {
   if(Notes){
     print(sprintf("Notes:"))
     print(sprintf("Age must be numeric in months"))
@@ -118,18 +126,18 @@ plotmuac <- function(age, sex, muac, age_range = "3-60",
     g1 <- ggplot2::ggplot() +
     geom_smooth(aes(x = BoysZSACFA$Month,
                     y = BoysZSACFA$muac,
-                    group = BoysZSACFA$zscores,
-                    linetype = BoysZSACFA$zscores),
+                    group = BoysZSACFA$zscores),
                 method = "gam", lwd = lwd,
                 formula = y ~ s(x, bs = "cs"),
-                se = FALSE, color = line.color) +
+                se = FALSE, color = line.color,
+                linetype = line.type) +
     geom_text(data = BoysZSACFA %>% filter(Month == last(Month)),
               aes(label = zscores,
                   x = Month + 1.9, color = "red",
                   y = muac), size = size.score) +
-    geom_point( aes(x = Datafm$age, y = Datafm$muac),
+    geom_point(aes(x = Datafm$age, y = Datafm$muac),
                 size=size.label, color="red",
-                shape =  1:nrow(Datafm)) +
+                shape =  shape) +
     scale_y_continuous(breaks = seq(0, max(BoysZSACFA$muac)+2, 1),
                        "MUAC (cm)") +
     scale_x_continuous(breaks = seq(0, 60, 4),
@@ -155,18 +163,18 @@ plotmuac <- function(age, sex, muac, age_range = "3-60",
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = GirlsZSACFA$Month,
                       y = GirlsZSACFA$muac,
-                      group = GirlsZSACFA$zscores,
-                      linetype = GirlsZSACFA$zscores),
+                      group = GirlsZSACFA$zscores),
                   method = "gam", lwd = lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = GirlsZSACFA %>% filter(Month == last(Month)),
                 aes(label = zscores,
                     x = Month + 1.9, color = "red",
                     y = muac), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$muac),
                   size=size.label, color="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(GirlsZSACFA$muac)+2, 1),
                          "MUAC (cm)") +
       scale_x_continuous(breaks = seq(0, 60, 4),
@@ -192,17 +200,17 @@ plotmuac <- function(age, sex, muac, age_range = "3-60",
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BoysPercACFA$Month,
                       y = BoysPercACFA$muac,
-                      group = BoysPercACFA$perc,
-                      linetype = BoysPercACFA$perc),
+                      group = BoysPercACFA$perc),
                   method = "gam", lwd = lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BoysPercACFA %>% filter(Month == last(Month)),
                 aes(label = perc, x = Month + 2.9, color= "red",
                     y = muac), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$muac),
                   size=size.label, colour="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BoysPercACFA$muac)+2, 1),
                          "MUAC (cm)") +
       scale_x_continuous(breaks = seq(0, 60, 4),
@@ -227,17 +235,17 @@ plotmuac <- function(age, sex, muac, age_range = "3-60",
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = GirlsPercACFA$Month,
                       y = GirlsPercACFA$muac,
-                      group = GirlsPercACFA$perc,
-                      linetype = GirlsPercACFA$perc),
+                      group = GirlsPercACFA$perc),
                   method = "gam", lwd = lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = GirlsPercACFA %>% filter(Month == last(Month)),
                 aes(label = perc, x = Month + 2.9, color = "red",
                     y = muac), size = size.score) +
       geom_point( aes(x = Datafm$age, y = Datafm$muac),
                   size = size.label, colour = "red",
-                  shape =  1:nrow(Datafm)) +
+                  shape = shape) +
       scale_y_continuous(breaks = seq(0, max(GirlsPercACFA$muac)+2, 1),
                          "MUAC (cm)") +
       scale_x_continuous(breaks = seq(0, 60, 4),
@@ -263,18 +271,18 @@ plotmuac <- function(age, sex, muac, age_range = "3-60",
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BoysZSNew$year,
                       y = BoysZSNew$muac,
-                      group = BoysZSNew$zscores,
-                      linetype = BoysZSNew$zscores),
+                      group = BoysZSNew$zscores),
                   method = "gam", lwd = lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BoysZSNew %>% filter(year == last(year)),
                 aes(label = zscores,
                     x = year + 0.9, color = "red",
                     y = muac), size = size.score) +
       geom_point( aes(x = (Datafm$age)/12, y = Datafm$muac),
                   size=size.label, color = "red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BoysZSNew$muac)+2, 2),
                          "MUAC (cm)") +
       scale_x_continuous(breaks = seq(5, 19, 1),
@@ -300,18 +308,18 @@ plotmuac <- function(age, sex, muac, age_range = "3-60",
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = GirlsZSNew$year,
                       y = GirlsZSNew$muac,
-                      group = GirlsZSNew$zscores,
-                      linetype = GirlsZSNew$zscores),
+                      group = GirlsZSNew$zscores),
                   method = "gam", lwd = lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = GirlsZSNew %>% filter(year == last(year)),
                 aes(label = zscores,
                     x = year + 0.9, color = "red",
                     y = muac), size = size.score) +
       geom_point( aes(x = (Datafm$age)/12, y = Datafm$muac),
                   size=size.label, color="red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(GirlsZSNew$muac)+2, 2),
                          "MUAC (cm)") +
       scale_x_continuous(breaks = seq(5, 19, 1),
@@ -337,17 +345,17 @@ plotmuac <- function(age, sex, muac, age_range = "3-60",
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = BoysPercNew$year,
                       y = BoysPercNew$muac,
-                      group = BoysPercNew$perc,
-                      linetype = BoysPercNew$perc),
+                      group = BoysPercNew$perc),
                   method = "gam", lwd = lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = BoysPercNew %>% filter(year == last(year)),
                 aes(label = perc, x = year + 0.9, color = "red",
                     y = muac), size = size.score) +
       geom_point( aes(x = (Datafm$age)/12, y = Datafm$muac),
                   size=size.label, colour = "red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(BoysPercNew$muac)+2, 2),
                          "MUAC (cm)") +
       scale_x_continuous(breaks = seq(5, 19, 1),
@@ -372,17 +380,17 @@ plotmuac <- function(age, sex, muac, age_range = "3-60",
     g1 <- ggplot2::ggplot() +
       geom_smooth(aes(x = GirlsPercNew$year,
                       y = GirlsPercNew$muac,
-                      group = GirlsPercNew$perc,
-                      linetype = GirlsPercNew$perc),
+                      group = GirlsPercNew$perc),
                   method = "gam", lwd = lwd,
                   formula = y ~ s(x, bs = "cs"),
-                  se = FALSE, color = line.color) +
+                  se = FALSE, color = line.color,
+                  linetype = line.type) +
       geom_text(data = GirlsPercNew %>% filter(year == last(year)),
                 aes(label = perc, x = year + 0.9, color = "red",
                     y = muac), size = size.score) +
       geom_point( aes(x = (Datafm$age)/12, y = Datafm$muac),
                   size = size.label, colour = "red",
-                  shape =  1:nrow(Datafm)) +
+                  shape =  shape) +
       scale_y_continuous(breaks = seq(0, max(GirlsPercNew$muac)+2, 2),
                          "MUAC (cm)") +
       scale_x_continuous(breaks = seq(5, 19, 1),

@@ -4,7 +4,13 @@
 \alias{bmizs}
 \title{Generate Body Mass Index z-scores for age  and percentiles for children/adolescents given their age, sex, and bmi values.}
 \usage{
-bmizs(Datafm, age_range = "0-24", Notes = FALSE)
+bmizs(
+  Datafm,
+  age_range = "0-24",
+  digits.zscore = 2,
+  digits.perc = 2,
+  Notes = FALSE
+)
 }
 \arguments{
 \item{Datafm}{A DataFrame with variables age (in months), sex (1, 2 or "Male", "Female"),
@@ -12,6 +18,10 @@ bmi (numeric: in kilograms per meter squared (kg/m^2)).}
 
 \item{age_range}{age range in months. Input has to be characters.
 It allows "0-24" by default. Other inputs allowed are "24-60" or "61-228".}
+
+\item{digits.zscore}{The number of digits for z-score variable}
+
+\item{digits.perc}{The number of digits for percentile variable}
 
 \item{Notes}{Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature,
 range of variables allowed and number of records processed.}

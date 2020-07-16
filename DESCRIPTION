@@ -2,7 +2,7 @@ Package: MUACz
 Type: Package
 Title: Generate MUAC and BMI z-Scores and Percentiles for Children and
         Adolescents
-Version: 2.0.0
+Version: 2.1.0
 Authors@R: c(
     person("Lazarus", "Mramba", email = "lmramba@gmail.com", role = c("aut", "cre")),
     person("James", "Berkley", email = "JBerkley@kemri-wellcome.org", role = "aut"))
@@ -19,8 +19,8 @@ Imports: epiDisplay, ggplot2, dplyr, stats
 SystemRequirements: GNU make
 RoxygenNote: 7.1.0
 NeedsCompilation: no
-Packaged: 2020-05-07 23:39:00 UTC; lmramba
+Packaged: 2020-07-15 21:42:14 UTC; lmramba
 Author: Lazarus Mramba [aut, cre],
   James Berkley [aut]
 Repository: CRAN
-Date/Publication: 2020-05-08 09:10:03 UTC
+Date/Publication: 2020-07-16 04:10:02 UTC

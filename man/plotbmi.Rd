@@ -12,8 +12,10 @@ plotbmi(
   age_range = "0-24",
   line.color = "skyblue",
   graphtype = "z-scores",
-  size.label = 4,
-  size.score = 5,
+  size.label = 2,
+  size.score = 4,
+  line.type = "solid",
+  shape = 2,
   Notes = FALSE
 )
 }
@@ -39,6 +41,11 @@ It allows "0-24" by default. Other inputs allowed are "24-60" or "61-228".}
 
 \item{size.score}{refers to the size of the text for the calculated z-scores
 (-3,-2,-1,0,1,2,3) or the percentiles.}
+
+\item{line.type}{Type of line such as: "solid", "dotted",
+"dashed", "blank", "dotdash", "twodash", "longdash"}
+
+\item{shape}{of the individual point (marker)}
 
 \item{Notes}{Is FALSE by default. If set to TRUE, 'notes' will be printed on
 the console about the nature, range of variables allowed and number of records processed.}

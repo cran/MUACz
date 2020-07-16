@@ -12,8 +12,10 @@ plotmuac(
   graphtype = "z-scores",
   lwd = 1,
   line.color = "skyblue",
-  size.label = 4,
-  size.score = 5,
+  line.type = "solid",
+  shape = 2,
+  size.label = 2,
+  size.score = 4,
   Notes = FALSE
 )
 }
@@ -34,6 +36,11 @@ Options allowed are: "3-60" which is the default, or "60-228".}
 width of the line plots. By dafult, it is set to 1.}
 
 \item{line.color}{The color of the lines. It is set to "skyblue" by default.}
+
+\item{line.type}{Type of line such as: "solid", "dotted",
+"dashed", "blank", "dotdash", "twodash", "longdash"}
+
+\item{shape}{of the individual point (marker)}
 
 \item{size.label}{size of the label for calculated z-score or percentile}
 

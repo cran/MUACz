@@ -4,7 +4,15 @@
 \alias{indivmuaczs}
 \title{Generate MUAC z scores and percentiles for age for single individuals given their age, sex and MUAC values.}
 \usage{
-indivmuaczs(age = 60, sex = 1, muac = 10, age_range = "3-60", Notes = FALSE)
+indivmuaczs(
+  age = 60,
+  sex = 1,
+  muac = 10,
+  age_range = "3-60",
+  digits.zscore = 2,
+  digits.perc = 2,
+  Notes = FALSE
+)
 }
 \arguments{
 \item{age}{a numeric value (in months) between 3 and 228 depending on the age_range.}
@@ -15,6 +23,10 @@ indivmuaczs(age = 60, sex = 1, muac = 10, age_range = "3-60", Notes = FALSE)
 
 \item{age_range}{age range in months. Input has to be characters.
 Options allowed are: "3-60" the default, or "60-228".}
+
+\item{digits.zscore}{The number of digits for z-score variable}
+
+\item{digits.perc}{The number of digits for percentile variable}
 
 \item{Notes}{Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature,
 range of variables allowed and number of records processed.}

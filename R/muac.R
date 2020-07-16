@@ -9,6 +9,10 @@
 ##' @param age_range age range in months. Input has to be characters.
 #' Options allowed are: "3-60" which is the default, or "60-228"
 #'
+#' @param digits.zscore The number of digits for z-score variable
+#'
+#' @param digits.perc The number of digits for percentile variable
+#'
 #' @param Notes Is FALSE by default. If set to TRUE, 'notes' will be
 #' printed on the console about the nature, range of variables allowed
 #' and number of records processed.
@@ -58,7 +62,10 @@
 #'
 #' @export
 #'
-muaczs <- function(Datafm, age_range = "3-60", Notes = FALSE){
+muaczs <- function(Datafm, age_range = "3-60",
+                   digits.zscore = 2,
+                   digits.perc = 2,
+                   Notes = FALSE){
   # Datafm is your dataset (a data frame)
   # Important notes.
   if(Notes){
@@ -135,8 +142,8 @@ muaczs <- function(Datafm, age_range = "3-60", Notes = FALSE){
   merged1$muacz <-  merged1$muaczfinal
   muaczfinal <- NULL
   merged1 <- subset(merged1, select = -c(muaczfinal)) # drops muaczfinal
-  merged1$percentile <- round(pnorm(merged1$muacz)*100,1)
-  merged1$muacz <-  round(merged1$muacz, 0)
+  merged1$percentile <- round(pnorm(merged1$muacz)*100, digits = digits.perc)
+  merged1$muacz <-  round(merged1$muacz, digits = digits.zscore)
   if(Notes){
     print(paste0("Total records processed: ", nrow(merged1[!(is.na(merged1$muacz)),])), quote = FALSE)
   }
@@ -155,6 +162,10 @@ muaczs <- function(Datafm, age_range = "3-60", Notes = FALSE){
 #'
 #' @param age_range age range in months. Input has to be characters.
 #' Options allowed are: "3-60" the default, or "60-228".
+#'
+#' @param digits.zscore The number of digits for z-score variable
+#'
+#' @param digits.perc The number of digits for percentile variable
 #'
 #' @param Notes Is FALSE by default. If set to TRUE, 'notes' will be printed on the console about the nature,
 #' range of variables allowed and number of records processed.
@@ -204,6 +215,8 @@ muaczs <- function(Datafm, age_range = "3-60", Notes = FALSE){
 
 indivmuaczs<-function(age=60, sex=1, muac = 10,
                       age_range = "3-60",
+                      digits.zscore = 2,
+                      digits.perc = 2,
                       Notes = FALSE) {
   # Datafm is your dataset (a data frame)
   # Important notes.
@@ -280,8 +293,8 @@ indivmuaczs<-function(age=60, sex=1, muac = 10,
   merged1$muacz <-  merged1$muaczfinal
   muaczfinal <- NULL
   merged1 <- subset(merged1, select = -c(muaczfinal)) # drops muaczfinal
-  merged1$percentile <- round(pnorm(merged1$muacz)*100,1)
-  merged1$muacz <- round(merged1$muacz, 0)
+  merged1$percentile <- round(pnorm(merged1$muacz)*100, digits = digits.perc)
+  merged1$muacz <- round(merged1$muacz, digits = digits.zscore)
   if(Notes){
     print(paste0("Total records processed: ", nrow(merged1[!(is.na(merged1$muacz)),])), quote = FALSE)
   }

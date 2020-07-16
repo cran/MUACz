@@ -4,7 +4,13 @@
 \alias{muaczs}
 \title{Generate MUAC z-scores and percentiles for age for children and adolescents given their age, sex, and MUAC values.}
 \usage{
-muaczs(Datafm, age_range = "3-60", Notes = FALSE)
+muaczs(
+  Datafm,
+  age_range = "3-60",
+  digits.zscore = 2,
+  digits.perc = 2,
+  Notes = FALSE
+)
 }
 \arguments{
 \item{Datafm}{A DataFrame with variables including pid (unique subject identification),
@@ -12,6 +18,10 @@ age (in months), sex (1, 2 or "Male", "Female"), muac (numeric: in cm).}
 
 \item{age_range}{age range in months. Input has to be characters.
 Options allowed are: "3-60" which is the default, or "60-228"}
+
+\item{digits.zscore}{The number of digits for z-score variable}
+
+\item{digits.perc}{The number of digits for percentile variable}
 
 \item{Notes}{Is FALSE by default. If set to TRUE, 'notes' will be
 printed on the console about the nature, range of variables allowed
